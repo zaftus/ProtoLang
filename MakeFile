@@ -1,0 +1,17 @@
+.PHONY: all build test lint clean
+
+all: build
+
+build:
+	python3 -m pip install -r requirements.txt || true
+	gcc -O2 -Wall -Wextra -std=c11 protolang/vm.c -o protolang/vm
+
+test:
+	pytest -q
+
+lint:
+	python3 -m pyflakes protolang || true
+	python3 tools/fmt.py protolang
+
+clean:
+	rm -f protolang/vm
